@@ -6,52 +6,60 @@ import { Card, Typography, CardContent, CardActions, IconButton, TextField } fro
 import styles from './RealEstateForm.css.js';
 
 export const RealEstateForm = props => {
+  let history = useHistory();
   const currentEdit = useSelector(state => state.RealStateReducer.currentEdit);
   const [currentStep, setCurrentStep] = useState(0);
   const [currentStepDictionary, setCurrentStepDictionary] = useState([]);
-  let history = useHistory();
+  const [data, setData] = useState(currentEdit);
 
   useEffect(() => {
     setCurrentStepDictionary([_stepOne, _stepTwo, _stepThree]);
+    if (!currentEdit.id) history.push('/');
   }, [currentEdit]);
 
-  const _stepOne = () => {
+  const _stepOne = data => {
     return(
       <div style={styles.cardContent}>
-        <TextField label="Título" style={styles.input} defaultValue={currentEdit.title}  />
-        <TextField label="Descripción" style={styles.input} defaultValue={currentEdit.description} />
+        <TextField onChange={_editData} id="title" label="Título" style={styles.input} value={data.title} />
+        <TextField onChange={_editData} id="description" label="Descripción" style={styles.input} value={data.description} />
       </div>
     );
   }
 
-  const _stepTwo = () => {
+  const _stepTwo = data => {
     return(
       <div style={styles.cardContent}>
-        <TextField label="Datos del dueño" style={styles.input} defaultValue={currentEdit.ownerData} />
-        <TextField label="Dirección" style={styles.input} defaultValue={currentEdit.address} />
+        <TextField onChange={_editData} id="ownerData" label="Datos del dueño" style={styles.input} value={data.ownerData} />
+        <TextField onChange={_editData} id="address" label="Dirección" style={styles.input} value={data.address} />
       </div>
     );
   }
 
-  const _stepThree = () => {
+  const _stepThree = data => {
     return(
       <div style={styles.cardContent}>
-        <TextField label="Precio" style={styles.input} defaultValue={currentEdit.cost} />
-        <TextField label="Imagen" style={styles.input} defaultValue={currentEdit.image} />
+        <TextField onChange={_editData} id="cost" label="Precio" style={styles.input} value={data.cost} />
+        <TextField onChange={_editData} id="image" label="Imagen" style={styles.input} value={data.image} />
       </div>
     );
   }
 
-  const _getCurrentStep = currentStep => {
-    return currentStepDictionary[currentStep] ? currentStepDictionary[currentStep]() : '';    
+  const _getCurrentStep = (currentStep, data) => {
+    return currentStepDictionary[currentStep] ? currentStepDictionary[currentStep](data) : '';    
   }
 
   const _handlerPrevious = e => {
-    if (currentStep > 0) setCurrentStep(currentStep-1);
+    if (currentStep > 0) setCurrentStep(currentStep => currentStep - 1);
   }
 
   const _handlerNext = e => {
-    if (currentStep < currentStepDictionary.length-1) setCurrentStep(currentStep+1);
+    if (currentStep < currentStepDictionary.length-1) setCurrentStep(currentStep => currentStep + 1);
+  }
+
+  const _editData = e => {
+    const param = e.currentTarget.id;
+    const value = e.currentTarget.value;
+    setData(data => Object.assign({}, data, { [param]: value }));
   }
 
   return (
@@ -62,10 +70,10 @@ export const RealEstateForm = props => {
             <ArrowBack />
           </IconButton>
           <Typography variant="h5" style={styles.cardTitle}>
-            {currentEdit.title}
+            {data.title}
           </Typography>
         </div>
-        {_getCurrentStep(currentStep)}
+        {_getCurrentStep(currentStep, data)}
       </CardContent>
       <CardActions style={styles.cardActions}>
         <IconButton onClick={_handlerPrevious}>
