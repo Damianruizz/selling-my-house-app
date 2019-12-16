@@ -1,11 +1,11 @@
 const initialState = {
-  tasks: []
+  currentEdit: {}
 };
 
 const RealStateReducer = (state = initialState, action) => {
   switch(action.type) {
-    case 'ADD_TASK':
-      return Object.assign({}, state, { tasks: state.tasks.concat(action.payload) });
+    case 'EDIT_REAL_ESTATE':
+      return Object.assign({}, state, { currentEdit: action.payload });
     default:
       return state;
   }

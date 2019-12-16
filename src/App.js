@@ -1,10 +1,18 @@
 import React from 'react';
-import { DashboardContainer } from './components/DashboardContainer';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { DashboardContainer } from './components/dashboardContainer/DashboardContainer';
+import { RealEstateForm } from './components/realEstateForm/RealEstateForm';
 
 function App() {
   return (
     <div className="App">
-      <DashboardContainer />
+      <Router>
+        <Switch>
+          <Route exact path="/" component={DashboardContainer} />
+          <Route path="/edit/:id" component={RealEstateForm} />
+          <Route path="/create" component={RealEstateForm} />
+        </Switch>
+      </Router>
     </div>
   );
 }
