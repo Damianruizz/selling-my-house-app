@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -12,7 +12,7 @@ const defaultImage = '/img/default.jpg';
 
 export const RealEstateCard = props => {
   const dispatch = useDispatch();
-  let history = useHistory();
+  const history = useHistory();
 
   const _getAvatarTitle = title => {
     return title ? title.substring(0, 1) : '';
@@ -43,15 +43,15 @@ export const RealEstateCard = props => {
         style={styles.media}
         image={props.cardData.image || defaultImage}
       />
-      <CardContent>
+      <CardContent style={styles.cardContent}>
         <Typography variant="body2" color="textSecondary" component="p">
           {props.cardData.description}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          {props.cardData.address}
+          Ubicada en: {props.cardData.address}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          {props.cardData.ownerData}
+          Datos del propietario: {props.cardData.ownerData}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

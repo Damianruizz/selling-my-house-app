@@ -1,24 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { RealEstateCard } from '../realEstateCard/RealEstateCard'
+import { useHistory } from 'react-router-dom';
+import { RealEstateCard } from '../realEstateCard/RealEstateCard';
+import { Spinner } from '../spinner/Spinner';
+import { getAllrealEstates } from '../../requests/requests';
+import { Fab } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import styles from './DashboardContainer.css.js';
 
 export const DashboardContainer = props => {
-  const [cardData, setCardData] = useState({});
+  const history = useHistory();
+  const [realEstates, setRealEstates] = useState([]);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   useEffect(() => {
-    setCardData({
-      id: 1,
-      title: 'Título de la propiedad',
-      cost: '$10,000,000',
-      image: '/img/default.jpg',
-      description: 'Esta es una bella casa ubicada al norte de la ciudad de México',
-      address: 'Ubicada en: Montes Urales 404, Colonia Chapultepec 1ra sección CP: 55200',
-      ownerData: 'Datos del propietario: Juan Ignacio Zaragoza'
+    setShowSpinner(true);
+    getAllrealEstates().then(response => {
+      setRealEstates(response);
+      setShowSpinner(false);
     });
   }, [props]);
 
+  const _addNew = event => {
+    history.push('/create');
+  }
+
   return (
     <div className="dashboard-container">
-      <RealEstateCard cardData={cardData} />
+      <div className="real-estates">
+        {realEstates && realEstates.map(realEstate => (
+          <RealEstateCard cardData={realEstate} key={realEstate.id} />
+        ))}
+      </div>
+      <Fab color="primary" aria-label="add" style={styles.buttonAdd} onClick={_addNew}>
+        <AddIcon />
+      </Fab>
+      <Spinner showSpinner={showSpinner} />
     </div>
   );
 }

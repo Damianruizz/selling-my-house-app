@@ -1,6 +1,8 @@
 export default {
   card: {
     maxWidth: '345px',
+    display: 'inline-block',
+    margin: '10px'
   },
   media: {
     height: '0px',
@@ -8,5 +10,9 @@ export default {
   },
   avatar: {
     backgroundColor: '#009aff6b'
+  },
+  cardContent: {
+    height: '6.3em',
+    overflow: 'auto'
   }
 }

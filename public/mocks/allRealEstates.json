@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "title": "Sierra de Morelos",
+    "cost": "10000000",
+    "image": "/img/default.jpg",
+    "description": "Esta es una bella casa ubicada en Morelos jsdfhalskfh alskdjfh alskdjfh lasjd fhlasjdfh lakjsdh flakjsdh flakjdh fljkash dflkjash dlfkjah sdlkfah sldkfh alskdjfh laskdfh laskdfh lakjdfh ",
+    "address": "Montes Urales 404, Colonia Chapultepec 1ra sección CP: 55200",
+    "ownerData": "Martin Gomez"
+  },
+  {
+    "id": 2,
+    "title": "Montes Urales",
+    "cost": "1800000",
+    "image": "/img/default.jpg",
+    "description": "Esta es una bella casa ubicada al sur de la ciudad de Mexico",
+    "address": "Montes Urales 404, Colonia Chapultepec 1ra sección CP: 55200",
+    "ownerData": "Juan Ignacio Zaragoza"
+  },
+  {
+    "id": 3,
+    "title": "La Roma",
+    "cost": "20000000",
+    "image": "/img/casa1.jpg",
+    "description": "Esta es una bella casa ubicada en la colonia Roma",
+    "address": "Mercado de la Roma 1ra sección CP: 55200",
+    "ownerData": "Julio Jaramillo"
+  },
+  {
+    "id": 4,
+    "title": "Polanco House",
+    "cost": "16500000",
+    "image": "/img/casa1.jpg",
+    "description": "Esta es una bella casa ubicada en en Polanco Ciudad de Mexico",
+    "address": "Zaragoza 805, Polanco, CP: 55200",
+    "ownerData": "Maria Magdalena"
+  },
+  {
+    "id": 5,
+    "title": "Aeropuerto Internacional",
+    "cost": "13000000",
+    "image": "/img/default.jpg",
+    "description": "Esta es una bella casa ubicada cerca del aeropuerto de la Ciudad de México",
+    "address": "Oriente 505, Venustiano Carranza sección CP: 55200",
+    "ownerData": "Rogelio Mendez"
+  }
+]
