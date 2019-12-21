@@ -37,23 +37,5 @@ export default {
   actions: {
     textAlign: 'end',
     marginTop: '15px'
-  },
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: '10px 20px',
-    width: '20rem',
-    height: '7rem'
-  },
-  modalInfo: {
-    marginTop: '10px',
-    fontFamily: 'Segoe UI',
-  },
-  errorIcon: {
-    color: '#ff0000ad'
   }
-}
+};

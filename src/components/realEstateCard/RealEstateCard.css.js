@@ -1,8 +1,9 @@
 export default {
   card: {
-    maxWidth: '345px',
+    width: '345px',
     display: 'inline-block',
-    margin: '10px'
+    margin: '10px',
+    height: '463px'
   },
   media: {
     height: '0px',
@@ -12,7 +13,14 @@ export default {
     backgroundColor: '#009aff6b'
   },
   cardContent: {
-    height: '6.3em',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '34%',
+    justifyContent: 'space-between',
+    paddingBottom: '0px'
+  },
+  infoContainer: {
+    maxHeight: '100px',
     overflow: 'auto'
   }
 }

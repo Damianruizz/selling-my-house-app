@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { NavigateNext, NavigateBefore, ArrowBack, Error } from '@material-ui/icons';
-/*import ErrorIcon from '@material-ui/icons/Error';*/
-import { Card, Typography, CardContent, CardActions, IconButton, TextField, Button, Modal, Backdrop } from '@material-ui/core';
+import { NavigateNext, NavigateBefore, ArrowBack } from '@material-ui/icons';
+import { Card, Typography, CardContent, CardActions, IconButton, TextField, Button } from '@material-ui/core';
 import styles from './RealEstateForm.css.js';
 import * as RealEstateActions from '../../actions/RealEstateActions';
+import { createRealEstate, updateRealEstate } from '../../requests/requests';
+import { Spinner } from '../spinner/Spinner';
+import { SnackbarWrapped } from '../snackbarWrapped/SnackbarWrapped';
 
 export const RealEstateForm = props => {
   const history = useHistory();
@@ -15,11 +17,12 @@ export const RealEstateForm = props => {
   const [currentStep, setCurrentStep] = useState(0);
   const [currentStepDictionary, setCurrentStepDictionary] = useState([]);
   const [data, setData] = useState(currentEdit);
-  const [showErrorModal, setShowErrorModal] = React.useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
+  const [snackbarData, setSnackbarData] = useState({});
 
   useEffect(() => {
     setCurrentStepDictionary([_stepOne, _stepTwo, _stepThree]);
-    if (location.pathname.includes('/edit') && !currentEdit.id) history.push('/');
+    if (location.pathname.includes('/edit') && !currentEdit.idRealEstate) history.push('/');
   }, [currentEdit]);
 
   const _stepOne = data => {
@@ -34,7 +37,7 @@ export const RealEstateForm = props => {
   const _stepTwo = data => {
     return(
       <div style={styles.cardContent}>
-        <TextField onChange={_editData} id="ownerData" label="Datos del dueño" style={styles.input} key={2} defaultValue={data.ownerData} />
+        <TextField onChange={_editData} id="ownerData" label="Datos del propietario" style={styles.input} key={2} defaultValue={data.ownerData} />
         <TextField onChange={_editData} id="address" label="Dirección" style={styles.input} key={3} defaultValue={data.address} />
       </div>
     );
@@ -44,7 +47,6 @@ export const RealEstateForm = props => {
     return(
       <div style={styles.cardContent}>
         <TextField onChange={_editData} id="cost" label="Precio" style={styles.input} key={4} defaultValue={parseFloat(data.cost) || 0} type="number" />
-        <TextField onChange={_editData} id="image" label="Imagen" style={styles.input} key={5} defaultValue={data.image} />
       </div>
     );
   }
@@ -66,22 +68,45 @@ export const RealEstateForm = props => {
     setData(data => Object.assign({}, data, { [target.id]: target.value }));
   }
 
-  const _handlerBack = event => {
+  const handlerBack = event => {
     dispatch(RealEstateActions.editRealEstate({}));
     history.goBack();
   }
 
-  const _handlerSave = event => {
-    console.log('data', data);
-    console.log(_isValidData(data));
+  const handlerSave = event => {
     if (_isValidData(data)) {
-      if (currentEdit.id) console.log('Manda a hacer un UPDATE');
-      else console.log('Manda a hacer un POST para CREATE');
-    } else setShowErrorModal(true);
+      setShowSpinner(true);
+      if (currentEdit.idRealEstate) _updateElement(data);
+      else _createElement(data);
+    } else setSnackbarData({ message: 'Ingresar toda la informacion obligatoria (Titulo, Datos del propietario, Dirección, Costo)', type: 'error', open: true });
   }
 
-  const _handlerCloseModal = event => {
-    setShowErrorModal(false);
+  const _createElement = payload => {
+    createRealEstate(payload).then(response => {
+      setShowSpinner(false);
+      if (response.success) {
+        setSnackbarData({ message: 'Propiedad creada exitosamente', type: 'success', open: true });
+        history.push('/');
+      } else _showGenericErrorMessage();
+    });
+  }
+
+  const _updateElement = payload => {
+    updateRealEstate(payload).then(response => {
+      setShowSpinner(false);
+      if (response.success) {
+        setSnackbarData({ message: 'Propiedad actualizada exitosamente', type: 'success', open: true });
+        history.push('/');
+      } else _showGenericErrorMessage();
+    });
+  }
+
+  const _showGenericErrorMessage = () => {
+    setSnackbarData({ message: 'Ocurrio un error', type: 'error', open: true });
+  }
+
+  const closeSnackbar = event => {
+    setSnackbarData({ open: false });
   }
 
   const _isValidData = data => {
@@ -96,7 +121,7 @@ export const RealEstateForm = props => {
       <Card style={styles.cardContainer}>
         <CardContent>
           <div style={styles.cardHeader}>
-            <IconButton onClick={_handlerBack}>
+            <IconButton onClick={handlerBack}>
               <ArrowBack />
             </IconButton>
             <Typography variant="h5" style={styles.cardTitle}>
@@ -115,28 +140,10 @@ export const RealEstateForm = props => {
         </CardActions>
       </Card>
       <div className="actions" style={styles.actions}>
-        <Button variant="contained" style={styles.button} onClick={_handlerSave}>Guardar</Button>
+        <Button variant="contained" style={styles.button} onClick={handlerSave}>Guardar</Button>
       </div>
-      <Modal
-        aria-describedby="modal-description"
-        aria-labelledby="modal-title"
-        open={showErrorModal}
-        onClose={_handlerCloseModal}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-        style={styles.modal}
-      >
-        <div className="modal-content" style={styles.modalContent}>
-          <Error id="modal-title" style={styles.errorIcon} />
-          <div className="modal-info" style={styles.modalInfo}>
-            <div>Ingresar toda la informacion obligatoria:</div>
-            <div>Titulo, datos del propietario, dirección y costo de la propiedad</div>
-          </div>
-        </div>
-      </Modal>
+      <SnackbarWrapped open={snackbarData.open || false} onClose={closeSnackbar} message={snackbarData.message} type={snackbarData.type || 'default'} />
+      <Spinner showSpinner={showSpinner} />
     </div>
   );
 }

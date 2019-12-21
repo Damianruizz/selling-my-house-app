@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "idRealEstate": 1,
     "title": "Sierra de Morelos",
     "cost": "10000000",
     "image": "/img/default.jpg",
@@ -9,7 +9,7 @@
     "ownerData": "Martin Gomez"
   },
   {
-    "id": 2,
+    "idRealEstate": 2,
     "title": "Montes Urales",
     "cost": "1800000",
     "image": "/img/default.jpg",
@@ -18,25 +18,25 @@
     "ownerData": "Juan Ignacio Zaragoza"
   },
   {
-    "id": 3,
+    "idRealEstate": 3,
     "title": "La Roma",
     "cost": "20000000",
-    "image": "/img/casa1.jpg",
+    "image": "/img/default.jpg",
     "description": "Esta es una bella casa ubicada en la colonia Roma",
     "address": "Mercado de la Roma 1ra sección CP: 55200",
     "ownerData": "Julio Jaramillo"
   },
   {
-    "id": 4,
+    "idRealEstate": 4,
     "title": "Polanco House",
     "cost": "16500000",
-    "image": "/img/casa1.jpg",
+    "image": "/img/default.jpg",
     "description": "Esta es una bella casa ubicada en en Polanco Ciudad de Mexico",
     "address": "Zaragoza 805, Polanco, CP: 55200",
     "ownerData": "Maria Magdalena"
   },
   {
-    "id": 5,
+    "idRealEstate": 5,
     "title": "Aeropuerto Internacional",
     "cost": "13000000",
     "image": "/img/default.jpg",
