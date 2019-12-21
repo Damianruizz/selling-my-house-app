@@ -1,13 +1,22 @@
+/* Core */
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+
+/* Material */
 import { NavigateNext, NavigateBefore, ArrowBack } from '@material-ui/icons';
 import { Card, Typography, CardContent, CardActions, IconButton, TextField, Button } from '@material-ui/core';
+
+/* Components */
 import styles from './RealEstateForm.css.js';
-import * as RealEstateActions from '../../actions/RealEstateActions';
-import { createRealEstate, updateRealEstate } from '../../requests/requests';
 import { Spinner } from '../spinner/Spinner';
 import { SnackbarWrapped } from '../snackbarWrapped/SnackbarWrapped';
+
+/* Actions */
+import * as RealEstateActions from '../../actions/RealEstateActions';
+
+/* Request */
+import { createRealEstate, updateRealEstate } from '../../requests/requests';
 
 export const RealEstateForm = props => {
   const history = useHistory();
@@ -25,6 +34,10 @@ export const RealEstateForm = props => {
     if (location.pathname.includes('/edit') && !currentEdit.idRealEstate) history.push('/');
   }, [currentEdit]);
 
+  /**
+  * @desc devuelve la estructura del paso uno para editar/crear una propiedad
+  * @params {Object}
+  */
   const _stepOne = data => {
     return(
       <div style={styles.cardContent}>
@@ -34,6 +47,10 @@ export const RealEstateForm = props => {
     );
   }
 
+  /**
+  * @desc devuelve la estructura del paso dos para editar/crear una propiedad
+  * @params {Object}
+  */
   const _stepTwo = data => {
     return(
       <div style={styles.cardContent}>
@@ -43,6 +60,10 @@ export const RealEstateForm = props => {
     );
   }
 
+  /**
+  * @desc devuelve la estructura del paso tres para editar/crear una propiedad
+  * @params {Object}
+  */
   const _stepThree = data => {
     return(
       <div style={styles.cardContent}>
@@ -51,28 +72,52 @@ export const RealEstateForm = props => {
     );
   }
 
+  /**
+  * @desc devuelve devuelve el paso actual
+  * @params {Number} {Object}
+  */
   const _getCurrentStep = (currentStep, data) => {
     return currentStepDictionary[currentStep] ? currentStepDictionary[currentStep](data) : '';    
   }
 
+  /**
+  * @desc maneja la accion para ir al paso anterior
+  * @params {Event}
+  */
   const _handlerPrevious = event => {
     if (currentStep > 0) setCurrentStep(currentStep => currentStep - 1);
   }
 
+  /**
+  * @desc maneja la accion para ir al paso siguiente
+  * @params {Event}
+  */
   const _handlerNext = event => {
     if (currentStep < currentStepDictionary.length-1) setCurrentStep(currentStep => currentStep + 1);
   }
 
+  /**
+  * @desc actualiza la propiedad 'data' de acuerdo a lo modificado
+  * @params {Event}
+  */
   const _editData = event => {
     const target = event.currentTarget;
     setData(data => Object.assign({}, data, { [target.id]: target.value }));
   }
 
+  /**
+  * @desc maneja el evento para volver a la pagina anterior
+  * @params {Event}
+  */
   const handlerBack = event => {
     dispatch(RealEstateActions.editRealEstate({}));
     history.goBack();
   }
 
+  /**
+  * @desc funcion principal para la accion de editar/crear
+  * @params {Event}
+  */
   const handlerSave = event => {
     if (_isValidData(data)) {
       setShowSpinner(true);
@@ -81,6 +126,10 @@ export const RealEstateForm = props => {
     } else setSnackbarData({ message: 'Ingresar toda la informacion obligatoria (Titulo, Datos del propietario, Dirección, Costo)', type: 'error', open: true });
   }
 
+  /**
+  * @desc llama al API para crear una nueva propiedad
+  * @params {Object}
+  */
   const _createElement = payload => {
     createRealEstate(payload).then(response => {
       setShowSpinner(false);
@@ -91,6 +140,10 @@ export const RealEstateForm = props => {
     });
   }
 
+  /**
+  * @desc llama al API para editar una propiedad
+  * @params {Object}
+  */
   const _updateElement = payload => {
     updateRealEstate(payload).then(response => {
       setShowSpinner(false);
@@ -101,14 +154,25 @@ export const RealEstateForm = props => {
     });
   }
 
+  /**
+  * @desc muestra un mensaje generico de error
+  */
   const _showGenericErrorMessage = () => {
     setSnackbarData({ message: 'Ocurrio un error', type: 'error', open: true });
   }
 
+  /**
+  * @desc maneja el evento de cerrar el toast
+  * @params {Event}
+  */
   const closeSnackbar = event => {
     setSnackbarData({ open: false });
   }
 
+  /**
+  * @desc valida que los datos obligatorios hayan sido insertados
+  * @params {Object}
+  */
   const _isValidData = data => {
     if (data.title && data.title.length > 0 && data.ownerData && data.ownerData.length > 0 && data.address && data.address.length > 0 && data.cost && parseFloat(data.cost) && parseFloat(data.cost) > 0) {
       return true;

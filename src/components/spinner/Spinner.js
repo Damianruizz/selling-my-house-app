@@ -3,7 +3,6 @@ import { CircularProgress } from '@material-ui/core';
 import styles from './Spinner.css.js';
 
 export const Spinner = props => {
-
   return(
     <div className="spinner-container">
       {props.showSpinner ? 

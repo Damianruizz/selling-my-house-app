@@ -1,5 +1,5 @@
 const getAllrealEstates = () => {
-  return fetch('http://localhost:3001/api/realEstates',
+  return fetch('https://selling-my-house-api.herokuapp.com/api/realEstates',
     {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }  
@@ -12,7 +12,7 @@ const getAllrealEstates = () => {
 }
 
 const createRealEstate = payload => {
-  return fetch('http://localhost:3001/api/realEstates', {
+  return fetch('https://selling-my-house-api.herokuapp.com/api/realEstates', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
@@ -24,7 +24,7 @@ const createRealEstate = payload => {
 }
 
 const updateRealEstate = payload => {
-  return fetch('http://localhost:3001/api/realEstates', {
+  return fetch('https://selling-my-house-api.herokuapp.com/api/realEstates', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
@@ -36,7 +36,7 @@ const updateRealEstate = payload => {
 }
 
 const deleteRealEstate = payload => {
-  return fetch('http://localhost:3001/api/realEstates', {
+  return fetch('https://selling-my-house-api.herokuapp.com/api/realEstates', {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)

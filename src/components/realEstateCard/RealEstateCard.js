@@ -1,14 +1,21 @@
+/* Core */
 import React from 'react';
+
+/* Material */
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import { Card, Typography, CardHeader, CardMedia, CardContent, CardActions, Avatar, IconButton } from '@material-ui/core';
-import styles from './RealEstateCard.css.js';
+import { Card, Typography, CardHeader, CardMedia, CardContent, Avatar, IconButton } from '@material-ui/core';
 
-const defaultImage = '/img/default.jpg';
+/* Components */
+import styles from './RealEstateCard.css.js';
 
 export const RealEstateCard = props => {
   const { onEdit, onDelete } = props;
 
+  /**
+  * @desc obtiene el titulo para el icono avatar
+  * @params {String}
+  */
   const _getAvatarTitle = title => {
     return title ? title.substring(0, 1) : '';
   }
@@ -26,7 +33,7 @@ export const RealEstateCard = props => {
       />
       <CardMedia
         style={styles.media}
-        image={props.cardData.image || defaultImage}
+        image={props.cardData.image}
       />
       <CardContent style={styles.cardContent}>
         <div style={styles.infoContainer}>

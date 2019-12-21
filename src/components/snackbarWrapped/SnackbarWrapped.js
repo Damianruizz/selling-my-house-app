@@ -1,7 +1,12 @@
+/* Core */
 import React from 'react';
+
+/* Material */
 import { Snackbar, SnackbarContent, IconButton } from '@material-ui/core';
-import styles from './SnackbarWrapped.css.js';
 import { Error, Close, CheckCircle } from '@material-ui/icons';
+
+/* Components */
+import styles from './SnackbarWrapped.css.js';
 
 const icons = {
   error: Error,
