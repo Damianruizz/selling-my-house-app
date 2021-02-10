@@ -134,6 +134,7 @@ export const RealEstateForm = props => {
     createRealEstate(payload).then(response => {
       setShowSpinner(false);
       if (response.success) {
+        window.analytics.track('Propiedad Creada', { userId: 'damiansin12345' });
         setSnackbarData({ message: 'Propiedad creada exitosamente', type: 'success', open: true });
         history.push('/');
       } else _showGenericErrorMessage();
@@ -148,6 +149,7 @@ export const RealEstateForm = props => {
     updateRealEstate(payload).then(response => {
       setShowSpinner(false);
       if (response.success) {
+        window.analytics.track('Propiedad Actualizada', { userId: 'damiansin12345' });
         setSnackbarData({ message: 'Propiedad actualizada exitosamente', type: 'success', open: true });
         history.push('/');
       } else _showGenericErrorMessage();

@@ -27,7 +27,11 @@ export const DashboardContainer = props => {
   const [snackbarData, setSnackbarData] = useState({});
 
   useEffect(() => {
-    _getAllRealStates();  
+    _getAllRealStates();
+    window.analytics.identify('damiansin12345', {
+      name: 'Damian Ruiz',
+      email: 'damian.ruiz@outlook.es'
+    }); 
   }, [props]);
 
   /**
@@ -35,6 +39,7 @@ export const DashboardContainer = props => {
   * @params {Event}
   */
   const _addNew = event => {
+    window.analytics.track('Crear Propiedad', { userId: 'damiansin12345' });
     history.push('/create');
   }
 
@@ -73,6 +78,7 @@ export const DashboardContainer = props => {
   const edit = event => {
     const element = JSON.parse(event.currentTarget.value);
     dispatch(RealEstateActions.editRealEstate(element));
+    window.analytics.track('Editar Propiedad', { userId: 'damiansin12345' });
     history.push(`/edit/${element.idRealEstate}`);
   }
 
@@ -84,6 +90,7 @@ export const DashboardContainer = props => {
     const element = JSON.parse(event.currentTarget.value);
     deleteRealEstate({idRealEstate: element.idRealEstate}).then(response => {
       if (response.success) {
+        window.analytics.track('Eliminar Propiedad', { userId: 'damiansin12345' });
         setSnackbarData({ message: `La propiedad '${element.title}' ha sido eliminada`, type: 'success', open: true });
         _getAllRealStates();
       }
