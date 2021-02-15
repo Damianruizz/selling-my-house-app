@@ -28,10 +28,10 @@ export const DashboardContainer = props => {
 
   useEffect(() => {
     _getAllRealStates();
-    window.analytics.identify('damiansin12345', {
-      name: 'Damian Ruiz',
-      email: 'damian.ruiz@outlook.es'
-    }); 
+    // window.analytics.identify('damiansin12345', {
+    //   name: 'Damian Ruiz',
+    //   email: 'damian.ruiz@outlook.es'
+    // });
   }, [props]);
 
   /**
@@ -39,7 +39,8 @@ export const DashboardContainer = props => {
   * @params {Event}
   */
   const _addNew = event => {
-    window.analytics.track('Crear Propiedad', { userId: 'damiansin12345' });
+    // window.analytics.track('Crear Propiedad', { userId: 'damiansin12345' });
+    window.mixpanel.track("Crear Propiedad", {"genre": "hip-hop", "duration in seconds": 42});
     history.push('/create');
   }
 
@@ -78,7 +79,8 @@ export const DashboardContainer = props => {
   const edit = event => {
     const element = JSON.parse(event.currentTarget.value);
     dispatch(RealEstateActions.editRealEstate(element));
-    window.analytics.track('Editar Propiedad', { userId: 'damiansin12345' });
+    // window.analytics.track('Editar Propiedad', { userId: 'damiansin12345' });
+    window.mixpanel.track("Editar Propiedad", {"genre": "hip-hop", "duration in seconds": 42});
     history.push(`/edit/${element.idRealEstate}`);
   }
 
@@ -90,7 +92,8 @@ export const DashboardContainer = props => {
     const element = JSON.parse(event.currentTarget.value);
     deleteRealEstate({idRealEstate: element.idRealEstate}).then(response => {
       if (response.success) {
-        window.analytics.track('Eliminar Propiedad', { userId: 'damiansin12345' });
+        // window.analytics.track('Eliminar Propiedad', { userId: 'damiansin12345' });
+        window.mixpanel.track("Eliminar Propiedad", {"genre": "hip-hop", "duration in seconds": 42});
         setSnackbarData({ message: `La propiedad '${element.title}' ha sido eliminada`, type: 'success', open: true });
         _getAllRealStates();
       }
